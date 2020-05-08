@@ -1,0 +1,23 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url = "***"
+}
+
+model EnititA {
+  id          String    @default(cuid()) @id
+  connector   EnitityB? @relation(fields: [connectorId], references: [id])
+  connectorId String?   @map("connector_id")
+  indicator   String
+  query       String
+
+  @@unique([connectorId, indicator, query])
+}
+
+model EnitityB {
+  id      String    @default(cuid()) @id
+  EnititA EnititA[]
+}
